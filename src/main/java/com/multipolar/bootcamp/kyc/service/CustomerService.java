@@ -31,4 +31,12 @@ public class CustomerService {
     public void deleteCustomerById(String id) {
         customerRepository.deleteById(id);
     }
+
+    public Optional<Customer> getCustomerByNik(String nik) {
+        return customerRepository.findByNik(nik);
+    }
+
+    public Optional<Customer> getCustomerByFirstNameCaseInsensitive(String firstName) {
+        return customerRepository.findByFirstNameCaseInsensitive(firstName);
+    }
 }

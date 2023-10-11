@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.multipolar.bootcamp.kyc.service.CustomerService;
@@ -19,7 +18,6 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/customer")
-@Validated
 public class CustomerController {
     private final CustomerService customerService;
 
@@ -59,6 +57,18 @@ public class CustomerController {
     public ResponseEntity<Void> deleteCustomerById(@PathVariable String id) {
         customerService.deleteCustomerById(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/nik/{nik}")
+    public ResponseEntity<Customer> getCustomerByNik(@PathVariable String nik) {
+        Optional<Customer> customer = customerService.getCustomerByNik(nik);
+        return customer.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/firstname/{firstName}")
+    public ResponseEntity<Customer> getCustomerByFirstNameCaseInsensitive(@PathVariable String firstName) {
+        Optional<Customer> customer = customerService.getCustomerByFirstNameCaseInsensitive(firstName);
+        return customer.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
 }
